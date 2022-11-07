@@ -1,0 +1,48 @@
+<section>
+    <div class="container mb-4 ">
+        <div class=" container row mb-2 ">
+            <table class='table mt-5 table-bordered' id='orderTable'>
+                <thead>
+                    <tr>
+                        <th scope="col">OrderID</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Method</th>
+                        
+                        <th scope="col">Status</th>
+                        <th scope="col">Option</th>
+
+
+
+                    </tr>
+                </thead>
+                
+                <tbody>
+                        {{#each order}}
+                    <tr>
+                        <td>{{this._id}}</td>
+                        <td>{{this.date}}</td>
+                        <td>{{deliveryDetails.address}}</td>
+                        <td>{{this.GrandTotal}}</td>
+                        <td>{{this.paymentMethod}}</td>
+                        <td>{{this.status}}</td>
+                        <td>
+                            <a class="btn btn-link" href="/admin/view-order-products/{{this._id}}">View</a>
+                        </td>
+                    </tr>
+                     {{/each}}
+                </tbody>
+               
+            </table>
+        </div>
+    </div>
+
+</section>
+
+<script>
+   $(function (){
+        $('#orderTable').DataTable();
+
+    });
+</script>

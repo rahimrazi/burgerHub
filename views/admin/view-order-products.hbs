@@ -1,0 +1,132 @@
+<section >
+  
+  <div class="container py-5 h-100 " >
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-8 col-xl-6">
+        <div class="card border-top border-bottom border-3" style="border-color: #000000 !important;">
+          <div class="card-body p-5">
+
+            <p class="lead fw-bold mb-5" style="color: #af3939;">Prodcut Delivery</p>
+{{#each products}}
+            <div class="col-md-2">
+              <img src="/product-images/{{this.result._id}}.jpg" style="width: 550px; height: 50px;" class="img-fluid" alt="Phone">
+            </div>
+
+            <div class="row">
+              <div class="col mb-3">
+                <p class="small text-muted mb-1 " ><p style="color: #000000;">Date</p></p>
+                <hr>
+                <p style="color: #000000;">{{this.date}}</p>
+              </div>
+              
+              <div class="col mb-3">
+                <p class="small text-muted mb-1" ><p style="color: #000000;">Product Id</p></p>
+                <hr>
+                <p style="color: #000000;">{{this.products.item}}</p>
+              </div>
+            </div>
+<hr>
+            <div class="mx-n5 px-5 py-4" style="background-color: #c7c7ab;">
+              <div class="row">
+                <div class="col-md-8 col-lg-9">
+                  <p>{{this.result.name}}</p>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                  <p>₹{{this.result.price}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-8 col-lg-9">
+                  <p class="mb-0">Quantity</p>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                  <p class="mb-0">{{this.products.quantity}}</p>
+                </div>
+              </div>
+            </div>
+
+            {{!-- <div class="row my-4">
+              <div class="col-md-4 offset-md-8 col-lg-3 offset-lg-9">
+                <p class="lead fw-bold mb-0" style="color: #f37a27;">₹{{this.result.totalAmount}}</p>
+              </div>
+            </div> --}}
+             
+              {{/each}}
+              <hr>
+              
+              <div class="row">
+                <div class="col-md-8 col-lg-9">
+                  <p class="mt-3 ml-5 " >Amount</p>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                  <p class=" fw-bold mr-4 mt-3" style="color: #002207;">₹{{products.[0].totalAmount}}</p>
+                </div>
+              </div>
+        
+
+            <div class="row">
+              <div class="col-lg-12">
+
+                <div class="horizontal-timeline">
+                    <br> 
+            <p class="lead fw-bold mb-0 pb-2" style="color: #000000;">Order Tracker</p>
+                  {{#with buttonchange}}
+                  {{#if pack}}
+                  <ul class="list-inline items d-flex justify-content-between">
+                    <li class="list-inline-item items-list">
+                      <a href="/admin/item-packed/{{id}} " class="btn btn-danger mt-5">Packed</a>
+                    </li>
+                     
+
+                    {{/if}}
+
+                    {{#if status}}
+
+                    <li class="list-inline-item items-list">
+                      <a href="/admin/item-shipped/{{id}} " class="btn btn-danger mt-5">Shipped</a>
+                    </li>
+
+                    {{else}}
+                    
+                    <li class="list-inline-item items-list text-end" style="margin-right: 8px;">
+                      <a href="/admin/item-delivered/{{id}} " class="btn btn-primary mt-5">Delivered</a>
+                    </li>
+                    {{/if}}
+                  </ul>
+
+
+                  {{/with}}
+
+                  {{!-- <ul class="list-inline items d-flex justify-content-between">
+                    <li class="list-inline-item items-list">
+                      <a href="/admin/item-packed/{{singleId}} " class="btn btn-danger mt-5">Packed</a>
+                    </li>
+                    <li class="list-inline-item items-list">
+                      <a href="/admin/item-shipped/{{singleId}} " class="btn btn-danger mt-5">Shipped</a>
+                    </li>
+                    
+                    <li class="list-inline-item items-list text-end" style="margin-right: 8px;">
+                     <a href="/admin/item-delivered/{{singleId}} " class="btn btn-danger mt-5">Delivered</a>
+                    </li>
+                    
+                  </ul>
+                --}}
+
+                </div>
+
+              </div>
+            </div>
+
+            {{!-- <p class="mt-4 pt-2 mb-0">any help? <a href="#!" style="color: #f37a27;">contact
+                us</a></p> --}}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+</section>

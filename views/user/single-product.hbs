@@ -1,0 +1,69 @@
+<section>
+
+	<!--================Single Product Area =================-->
+	<div class="product_image_area">
+		<div class="container">
+			
+			<div class="row s_product_inner">
+				<div class="col-lg-6">
+					<div class="s_Product_carousel">
+						<div class="single-prd-item">
+							
+							<img class="img-fluid mt-4" src="/product-images/{{proDetails._id}}.jpg" style="width: 300px	" alt="">
+						</div>
+							
+					</div>
+				</div>
+				<div class="col-lg-5 offset-lg-1">
+					<div class="s_product_text">
+
+						<br>
+						<br>
+
+						
+						<h3>{{proDetails.name}}</h3>
+						<br>
+						<h2>₹{{proDetails.price}}</h2>
+						<br>
+						<br>
+						<br>
+
+						<ul class="list">
+							<li><a class="active" href="#"><span>Category</span> : {{proDetails.category}}</a></li>
+							
+						</ul>
+							{{proDetails.description}}
+						<p></p>
+						
+						<div class="card_area d-flex align-items-center">
+							<a onclick="addToCart('{{proDetails._id}}')" > <span class="btn btn-primary" >Add to cart</span></a>
+							
+							{{!-- <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a> --}}
+							{{!-- <a class="icon_btn" onclick="addToWish('{{this._id}}')"><i class="lnr lnr lnr-heart"></i></a> --}}
+						</div>
+			
+						
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+    </section>
+	<script>
+        function addToCart(proId){
+    $.ajax({
+        url:"/add-to-cart/"+proId,
+        method:"get",
+        success:(response)=>{
+            if(response.status){
+                let count=$('#cart-count').html()
+                count = parseInt(count)+1
+                $("#cart-count").html(count)
+            }
+          
+            
+        }
+    })
+}
+</script>

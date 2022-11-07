@@ -1,0 +1,258 @@
+<section>
+    <div class="container">
+        <div class="mt-5">
+            <div class="cupon_area">
+                <div class="check_title">
+                    <h5>Apply Coupon get ₹20 off</h5>
+                </div>
+                {{#each viewCoupon}}
+                <div>
+                    <input type="text" value="{{this.coupon}}" id="myInput" style="color: red; font-weight: bold">
+                    <button onclick="myFunction()" class="btn btn-primary ">Copy</button>
+                </div>
+                {{/each}}
+
+
+                <div>
+                    <input type="text" placeholder="Enter coupon code" id="couponCode">
+                    <button onclick="applyCoupon()" class="btn btn-success ml-1 mt-2" type="submit"> Apply </button>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="container mt-5">
+            <form id="checkout-form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Enter Delivery Details</h2>
+                        <div>
+                            <label for="">Name</label>
+                            <input type="text" class="form-control" id="address" value="{{user.Name}}" name="Name">
+                            <label for="">Address</label>
+                            <input type="text" class="form-control" id="address" value="{{user.Address}}"
+                                name="address">
+                            <label for="">City</label>
+                            <input type="text" class="form-control" id="address" value="{{user.city}}" name="City">
+                            <label for="">State</label>
+                            <input type="text" class="form-control" id="address" value="{{user.state}}" name="State">
+                            <label for="">Pincode</label>
+                            <input type="text" class="form-control" id="pincode" value="{{user.pincode}}"
+                                name="pincode">
+                            <label for="">Mobile</label>
+                            <input type="text" class="form-control" id="mobile" value="{{user.mobileNumber}}"
+                                name="mobile">
+                            <input type="text" name="userId" id="userId" value="{{user._id}}" hidden>
+                            
+                            <div>
+                                <input type="text" name="Couponname" id="Couponname" value="" hidden>
+                            </div>
+                            <div>
+                                <input type="text" name="Discount" id="Discount" value="" hidden>
+                            </div>
+                            <div>
+                                <input type="text" name="grandtotal" id="grandtotal" value="{{total}}" hidden>
+                            </div>
+                            <div>
+                                <input type="text" name="" id="" value="{{total}}" hidden>
+                                          
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="container mt-5 ml-5 checkout">
+                            <div class="container">
+
+
+
+
+                                <h5>Sub Total : ₹ <span id="total">{{total}}</span></h5>
+                                <h5>Discount :( ₹ <span id="discount">0</span>)</h5>
+                                <hr>
+                                <h5>Total : ₹ <span id="Grandtotal">0</span></h5>
+                                <div class="payment">
+                                    <p>Payment method</p>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="payment-method" value="COD" checked>COD
+                                    </label>
+                                    <label class="radio-inline mt-2">
+                                        <input type="radio" name="payment-method" value="ONLINE">Online payment
+                                    </label>
+                                    <button class="btn btn-primary float-right" type="submit">Checkout</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    function applyCoupon() {
+
+        var coupon = document.getElementById('couponCode').value
+
+        var userId = document.getElementById('userId').value
+
+
+        var total = document.getElementById('total').innerHTML
+           console.log("222222",coupon,userId,total) 
+
+        $.ajax({
+            url: '/apply-coupon',
+            method: 'post',
+            data: {
+                coupon: coupon,
+                userId: userId
+
+            },
+            success: (response) => {
+                    console.log(response,"response issss")
+                if (response.expirry) {
+                    alert('your coupon has expired')
+                } else if (response.used) {
+                    alert('coupon is already used')
+                } else if (response.unAvailable) {
+                    alert('sorry! its not valid')
+                } else {
+                    var discount = response.price
+                    console.log(discount)
+                    var Grandtotal = total - discount
+                    console.log(Grandtotal)
+                    document.getElementById('discount').innerHTML = discount
+
+                    document.getElementById('Grandtotal').innerHTML = Grandtotal
+                    document.getElementById('Couponname').innerHTML = response.coupon
+                    document.getElementById('Couponname').value = response.coupon
+                    document.getElementById('Grandtotal').value = Grandtotal
+                    document.getElementById('grandtotal').value = Grandtotal
+                    document.getElementById('discount').value = discount
+                    document.getElementById('Discount').value = discount
+
+                    Swal.fire({
+                        title: "Congrats",
+                        text: "Succesfully Added Coupon",
+                        icon: "success",
+                        button: "ok",
+                    });
+                }
+            }
+        })
+    }
+
+
+
+
+</script>
+
+<script>
+    document.getElementById('checkout-form').addEventListener('submit', function (evt) {
+
+        evt.preventDefault()
+        $.ajax({
+            url: '/place-order',
+            method: 'post',
+            data: $('#checkout-form').serialize(),
+            success: (response) => {
+                console.log("ajaxresponse", response)
+
+                if (response.codSuccess) {
+                    location.href = '/order-success'
+                } else {
+                    razorpayPayment(response)
+                }
+            }
+        })
+    })
+    function razorpayPayment(order) {
+        var options = {
+            "key": "rzp_test_MSI9wK8MWUe8kH", // Enter the Key ID generated from the Dashboard
+            "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Crossroads",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response) {
+
+
+                verifyPayment(response, order)
+            },
+
+            "prefill": {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+    }
+    function verifyPayment(payment, order) {
+        $.ajax({
+            url: '/verify-payment',
+            data: {
+                payment,
+                order
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.status) {
+                    location.href = '/order-success'
+                } else {
+                    alert('payment failed')
+                }
+
+            }
+        })
+    }
+</script>
+<style>
+    input[type=radio] {
+        width: 20px;
+        height: 20px;
+    }
+
+    label.radio-inline {
+        display: flex;
+        align-items: center;
+
+    }
+
+    .checkout {
+        border: 1px solid;
+        border-radius: 3px;
+        padding: 30px;
+    }
+
+    .payment {
+        padding-bottom: 16px
+    }
+</style>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function myFunction() {
+        // Get the text field
+        var copyText = document.getElementById("myInput");
+
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
+
+        // Alert the copied text
+        Swal.fire("coupon Successfully Copied");
+    }
+</script>

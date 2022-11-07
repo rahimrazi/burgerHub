@@ -1,0 +1,40 @@
+<section>
+    <div class="container">
+        {{!-- <div class="">
+            <a href="/admin/add-user" class="btn btn-success my-5">Add Users</a>
+        </div> --}}
+        <table class="table display" id="usersTable">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Mobile</th>
+
+                    <th scope="col">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each userdetails}}
+                <tr>
+                    <td>{{this.Name}} </td>
+                    <td>{{this.email}} </td>
+                    <td>{{this.mobile}} </td>
+                    
+                    {{#if block}}
+                   
+                        <td>
+                        <a href="/admin/unblock/{{this._id}}" class="btn btn-success">Unblock</a>
+                        
+                    </td>
+                    {{else}}
+                     <td>
+                        <a href="/admin/block/{{this._id}}" class="btn btn-danger"
+                            onclick="return confirm('Are you sure to block {{this.name}}?')">Block</a></td>
+                            {{/if}}
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</section>

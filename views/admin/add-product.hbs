@@ -1,0 +1,52 @@
+<section>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+
+            
+            <h2 class="text-center">Add product</h2>
+            {{#if addMsg }}
+             <h1>{{addMsg}}</h1>
+            {{/if}}
+            <form action="/admin/add-product" method="POST" enctype="multipart/form-data">
+            
+                <label for="">name</label>
+                <input type="text" name="name" class="form-control" required>
+
+                {{!-- <label for="">category</label>
+                <input type="text" name="category" class="form-control"> --}}
+
+                <div class="form-floating mb-3 mt-3">
+                                <select class="form-select" id="floatingSelect"
+                                    aria-label="Floating label select example" name="category">
+                                    <option selected>Select category</option>
+                                    {{#each categoryDetails}}
+                                    <option value="{{this.category}}">{{this.category}}</option>
+                                    
+                                    {{/each}}
+                                </select>
+                                <label for="floatingSelect">Category</label>
+                            </div>
+                <label for="">Quantity</label>
+                <input type="number" name="Qty" class="form-control" required>            
+
+                <label for="">price</label>
+                <input type="number" name="price" class="form-control" required>
+
+                {{!-- <label for="">description</label>
+                <input type="text" name="description" class="form-control"> --}}
+
+                <label for="">image</label>
+                <input name="image" type="file" class="form-control" required>
+
+                <button type="submit" class="btn btn-success mt-4">Submit</button>
+
+
+            </form>
+
+            </div>
+          
+        </div>
+
+    </div>
+</section>

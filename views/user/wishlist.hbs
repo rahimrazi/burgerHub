@@ -1,0 +1,119 @@
+<!--================Cart Area =================-->
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table" id="myDiv">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Price</th>
+                                {{!-- <th scope="col">Quantity</th> --}}
+
+                                <th scope="col">Option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each products}}
+                            <tr>
+                                {{!-- {{#each this.product}} --}}
+                                <td>
+                                    <div class="media">
+                                        <div class="d-flex">
+                                            <img class="img-fluid" src="/product-images/{{this.products._id}}.jpg"
+                                                style="width: 100px; height: 100px;" alt="">
+                                        </div>
+                                        <div class="media-body">
+                                            <p>{{this.products.name}}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>₹{{this.products.price}}</h5>
+                                </td>
+                                {{!-- {{/each}} --}}
+
+                               
+
+
+                                <td>
+                                    
+                                        <button class="btn btn-danger" onclick="deleteProduct('{{this._id}}','{{this.products._id}}')">Remove
+
+                                        </button>
+                                        <a onclick="addToCart('{{products._id}}')" class="btn btn-success">Add To cart</a>
+
+                                </td>
+
+                            </tr>
+                            </tr>
+                            {{/each}}
+
+
+                            {{!-- <tr>
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                               
+                            </tr> --}}
+
+                            <tr class="out_button_area">
+                                <td>
+
+                                </td>
+                                {{!-- <td>
+
+                                </td> --}}
+                                <td>
+
+                                </td>
+                                <td>
+                                    <div class="checkout_btn_inner d-flex align-items-center">
+                                        <a class="gray_btn" href="/">Continue Shopping</a>
+                                        {{!-- <a class="primary-btn" href="/checkout">Proceed to checkout</a> --}}
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        function addToCart(proId){
+    $.ajax({
+        url:"/add-to-cart/"+proId,
+        method:"get",
+        success:(response)=>{
+            if(response.status){
+                let count=$('#cart-count').html()
+                count = parseInt(count)+1
+                $("#cart-count").html(count)
+            }
+          
+            
+        }
+    })
+}
+    </script>
+    <script>
+    function deleteProduct(cartId, proId) {
+        console.log(cartId, proId)
+        $.ajax({
+            url: '/delete-wishlistproduct/' + cartId + '/' + proId,
+            method: 'get',
+            success: (response) => {
+                if (response.removeProduct) {
+                    
+                    location.reload()
+                    
+                      	
+                }
+            }
+        })
+    }
+</script>

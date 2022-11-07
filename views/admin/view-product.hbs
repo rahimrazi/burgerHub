@@ -1,0 +1,75 @@
+<style>
+
+</style>
+<section>
+    <div class="container mt-4">
+
+        <div class="row ">
+            <a href="/admin/add-product" class="btn btn-success mt-3 mx-3 btn-lg btn-dark">Add product</a>
+        </div>
+        {{#if delMsg }}
+        <h1>{{delMsg}}</h1>
+        {{/if}}
+        {{#if updMsg }}
+        <h1>{{updMsg}}</h1>
+        {{/if}}
+        <table class="table mt-3 table-striped table-bordered" id="productsTable">
+            <thead>
+                <tr>
+
+                    <th scope="col">name</th>
+                    <th scope="col">Qty</th>
+                    <th scope="col">price</th>
+                    <th scope="col">image</th>
+                    <th scope="col">options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products}}
+                <tr>
+
+                    <td>{{this.name}}</td>
+                    <td>{{this.Qty}}</td>
+                    <td>{{this.price}}</td>
+
+                    <td><img style="width:50px;height:50px" src="/product-images/{{this._id}}.jpg" alt=""></td>
+                    <td>
+
+                        <a href="/admin/edit-product/{{this._id}}" class="btn btn-primary">Edit</a>
+                        {{#if this.active}}
+                        <button onclick="productStatus('{{this._id}}')" class="btn btn-warning">hide</button>
+                        {{else}}
+                        <button onclick="productStatus('{{this._id}}')" class="btn btn-warning">un hide</button>
+                        {{/if}}
+
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</section>
+{{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+    integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+<script>
+    $(function () {
+        $('#productsTable').DataTable();
+
+    });
+
+    function productStatus(proId) {
+
+        console.log(proId)
+        $.ajax({
+            url: '/admin/changeProductStatus/' + proId,
+            method: 'post',
+            success: (response) => {
+                if (response.status) {
+                    location.reload()
+                }
+            }
+
+        })
+    }
+</script>
