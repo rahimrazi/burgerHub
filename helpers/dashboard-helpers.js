@@ -229,8 +229,8 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 let dailySales = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
-                    { $match: { date: { $gte: new Date("2019-05-01") } } },
-                    { $group: { _id: { $dateToString: { format: "%Y-%m-%d", date: "$date"} },totalAmount: { $sum: { $multiply: [ "$GrandTotal" ] } } } },
+                    { $match: { date: { $gte: new Date("2022-05-01") } } },
+                    { $group: { _id: { $dateToString: { format: "%d-%m-%Y", date: "$date"} },totalAmount: { $sum: { $multiply: [ "$GrandTotal" ] } } } },
                     { $sort: { _id: 1} }
                   ]).toArray()
                   resolve(dailySales)

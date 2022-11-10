@@ -717,7 +717,11 @@ module.exports = {
                                 'date': 1,
                                 'totalAmount': 1,
                                 'paymentMethod': 1,
-                                'status': 1
+                                'status': 1,
+                                'GrandTotal':1,
+                                'couponDiscount':1
+
+
                             }
                         }
                     ]

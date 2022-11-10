@@ -46,13 +46,22 @@ router.get('/', async function (req, res, next) {
       let proCount = await productHelpers.getAllProducts()
 
       let revenue = await dashboardHelpers.totalReport()
+      console.log(revenue);
 
       let dailySales = await dashboardHelpers.perDaySales()
-      console.log(dailySales,"dailySalesssssss");
+      const salesLabels = dailySales.map(item => {
+        return item._id
+      })
+      const salesData =dailySales.map(item => {
+        return item.totalAmount
+      })
+      console.log(salesLabels,9999999999);
+      console.log(salesData,9999999999);
+      console.log("daily",dailySales,"dailySalesssssss");
       console.log(proCount.length, 78787);
       console.log(monthamount)
 
-      res.render('admin/dashboard', { adminw, userCount, orderCount, codCount, proCounts: proCount.length, ONLINECount, totalDelivered, totalShipped, revenue, cancelled, monthamount })
+      res.render('admin/dashboard', { adminw, userCount, orderCount, codCount, proCounts: proCount.length, ONLINECount, totalDelivered, totalShipped, revenue, cancelled, monthamount,salesData,salesLabels })
 
     } else {
       res.render('admin/admin-login', { layout: "blank" })
@@ -327,6 +336,49 @@ router.get('/delete-category/:id', (req, res, next) => {
   next(error)
 }
 })
+//view report
+router.get('/view-report',async function (req, res, next) {
+  try {
+    let userCount = await dashboardHelpers.getUserCount()
+
+    console.log(userCount, "usercounteeeeeeeeee");
+
+    let orderCount = await dashboardHelpers.getOrderCount()
+
+    let codCount = await dashboardHelpers.totalCOD()
+
+    let ONLINECount = await dashboardHelpers.totalONLINE()
+
+    let totalDelivered = await dashboardHelpers.totalDelivered()
+
+    let totalShipped = await dashboardHelpers.totalShipped()
+
+    let cancelled = await dashboardHelpers.cancelled()
+
+    let monthamount = await dashboardHelpers.totalMonthAmount()
+
+    let proCount = await productHelpers.getAllProducts()
+
+    let revenue = await dashboardHelpers.totalReport()
+    console.log(revenue);
+
+    let dailySales = await dashboardHelpers.perDaySales()
+    const salesLabels = dailySales.map(item => {
+      return item._id
+    })
+    const salesData =dailySales.map(item => {
+      return item.totalAmount
+    })
+
+
+    order = await userHelpers.adminOrders()
+    res.render('admin/view-report',{order,userCount, orderCount, codCount, proCounts: proCount.length, ONLINECount, totalDelivered, totalShipped, revenue, cancelled, monthamount,salesData,salesLabels });
+  } catch (error) {
+    next(error)
+
+  }
+
+});
 router.get('/view-banners', async function (req, res, next) {
   try{
   let banners = await bannerHelpers.getAllBanners()

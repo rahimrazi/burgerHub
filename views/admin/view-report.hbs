@@ -1,0 +1,102 @@
+<section>
+    <div class="container mb-4 ">
+        <div class=" container row mb-2 ">
+            <table class='table mt-5 table-bordered' id='orderTable'>
+                <thead>
+                    <tr>
+                        <th scope="col">OrderID</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Method</th>
+                        
+                        <th scope="col">Status</th>
+                        
+
+
+
+                    </tr>
+                </thead>
+                
+                <tbody>
+                        {{#each order}}
+                    <tr>
+                        <td>{{this._id}}</td>
+                        <td>{{this.date}}</td>
+                        <td>{{deliveryDetails.address}}</td>
+                        <td>{{this.GrandTotal}}</td>
+                        <td>{{this.paymentMethod}}</td>
+                        <td>{{this.status}}</td>
+                        
+                    </tr>
+                     {{/each}}
+                </tbody>
+               
+            </table>
+        </div>
+    </div>
+<hr>
+<hr>
+
+    {{!-- TABLE --}}
+   <table style="width:100%">
+  <tr>
+    <th>Particulars</th>
+    
+    <th>Details</th>
+  </tr>
+  <tr>
+    <td>Total Orders</td>
+    
+    <td>{{orderCount}}</td>
+  </tr>
+  <tr>
+    <td>Total Cash on Delivery</td>
+    
+    <td>{{codCount}}</td>
+  </tr>
+  <tr>
+    <td>Total Online Purchase</td>
+    
+    <td>{{ONLINECount}}</td>
+  </tr>
+  <tr>
+    <td>Total Delivered</td>
+    
+    <td>{{totalDelivered}}</td>
+  </tr>
+  <tr>
+    <td>Total Shipped</td>
+    
+    <td>{{totalShipped}}</td>
+  </tr>
+  <tr>
+    <td>Total Revenue</td>
+    
+    <td>{{revenue.totalRevenue}}</td>
+  </tr>
+  <tr>
+    <td>Total Products</td>
+    
+    <td>{{proCounts}}</td>
+  </tr>
+  
+</table>
+
+</section>
+
+<script>
+   $(function (){
+        $('#orderTable').DataTable();
+
+    });
+</script>
+<style>
+table, th, td {
+  border: 1px solid white;
+  border-collapse: collapse;
+}
+th, td {
+  background-color: #96D4D4;
+}
+</style>

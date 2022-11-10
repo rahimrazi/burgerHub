@@ -31,6 +31,7 @@ router.get('/', async function (req, res, next) {
       wishCount = await userHelpers.getWishCount(req.session.user._id);
     }
     bannerHelpers.getAllBanners().then((banners) => {
+      console.log(banners,231213123123123);
 
       categoryHelpers.getAllCategory().then((categorys) => {
 
